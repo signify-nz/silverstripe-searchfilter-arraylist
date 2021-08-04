@@ -28,7 +28,7 @@
     },
     "autoload": {
       "psr-4": {
-        "Signify\\ComposableValidators\\": "src/"
+        "Signify\\SearchFilterArrayList\\": "src/"
       }
     }
   }
