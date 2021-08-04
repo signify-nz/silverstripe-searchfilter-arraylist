@@ -128,7 +128,7 @@ class SearchFilterableArrayList extends ArrayList
      * @param mixed $item
      * @return bool
      */
-    protected function checkValueMatchesSearchFilter(SearchFilter $searchFilter, mixed $item): bool
+    protected function checkValueMatchesSearchFilter(SearchFilter $searchFilter, $item): bool
     {
         $modifiers = $searchFilter->getModifiers();
         $caseSensitive = !in_array('nocase', $modifiers);
@@ -200,7 +200,7 @@ class SearchFilterableArrayList extends ArrayList
      * @return SearchFilter
      * @see \SilverStripe\ORM\DataList::createSearchFilter
      */
-    protected function createSearchFilter(string $filter, mixed $value)
+    protected function createSearchFilter(string $filter, $value)
     {
         // Field name is always the first component
         $fieldArgs = explode(':', $filter);
