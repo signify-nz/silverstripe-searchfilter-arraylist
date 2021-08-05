@@ -18,4 +18,4 @@ SilverStripe\Core\Injector\Injector:
 ## Usage
 When calling `find`, `filter`, `filterAny`, `exclude`, or `excludeAny` on a `SearchFilterableArrayList`, you can use [`SearchFilter` syntax](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) - the same as if you were calling those methods on a `DataList`.
 
-All of the `SearchFilter`s and modifiers documented in [Silverstripe's SearchFilter documentation](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) should be supported - if you find that isn't the case, please [raise an issue](./issues) or, better yet, a pull request.
+All of the `SearchFilter`s and modifiers documented in [Silverstripe's SearchFilter documentation](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) should be supported - if you find that isn't the case, please [raise an issue](https://github.com/signify-nz/silverstripe-searchfilter-arraylist/issues) or, better yet, a pull request.
