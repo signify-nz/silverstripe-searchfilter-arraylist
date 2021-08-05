@@ -28,7 +28,8 @@
     },
     "autoload": {
       "psr-4": {
-        "Signify\\SearchFilterArrayList\\": "src/"
+        "Signify\\SearchFilterArrayList\\": "src/",
+        "Signify\\SearchFilterArrayList\\Tests\\": "tests/"
       }
     }
   }
