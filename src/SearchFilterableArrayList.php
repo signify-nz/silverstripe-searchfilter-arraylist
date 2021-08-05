@@ -91,6 +91,7 @@ class SearchFilterableArrayList extends ArrayList
         $remainingItems = [];
         $searchFilters = [];
         foreach ($this->items as $item) {
+            $matches = [];
             foreach ($filters as $filterKey => $filterValue) {
                 if (array_key_exists($filterKey, $searchFilters)) {
                     $searchFilter = $searchFilters[$filterKey];
@@ -99,13 +100,16 @@ class SearchFilterableArrayList extends ArrayList
                     $searchFilters[$filterKey] = $searchFilter;
                 }
                 $hasMatch = $this->checkValueMatchesSearchFilter($searchFilter, $item);
+                $matches[] = $hasMatch;
                 // If this is excludeAny or filterAny and we have a match, we can stop looking for matches.
                 if ($any && $hasMatch) {
                     break;
                 }
             }
+            // filterAny or excludeAny allow any true value to be a match - otherwise any false value denotes a mismatch.
+            $isMatch = $any ? in_array(true, $matches) : !in_array(false, $matches);
             // If inclusive (filter) and we have a match, or exclusive (exclude) and there is NO match, keep the item.
-            if (($inclusive && $hasMatch) || (!$inclusive && !$hasMatch)) {
+            if (($inclusive && $isMatch) || (!$inclusive && !$isMatch)) {
                 $remainingItems[] = $item;
             }
         }
