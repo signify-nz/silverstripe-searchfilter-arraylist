@@ -137,64 +137,78 @@ class SearchFilterableArrayList extends ArrayList
         $modifiers = $searchFilter->getModifiers();
         $caseSensitive = !in_array('nocase', $modifiers);
         $negated = in_array('not', $modifiers);
-        $value = (string)$searchFilter->getValue();
         $field = $searchFilter->getFullName();
         $extractedValue = $this->extractValue($item, $field);
         $extractedValueString = (string)$extractedValue;
-        switch (get_class($searchFilter)) {
-            case EndsWithFilter::class:
-                if (is_bool($extractedValue)) {
-                    $doesMatch = false;
-                } else {
-                    $sensitivity = $caseSensitive ? '' : 'i';
-                    $safeValue = preg_quote($value, '/');
-                    $doesMatch = preg_match('/' . $safeValue . '$/' . $sensitivity, $extractedValueString);
-                }
-                break;
-            case ExactMatchFilter::class:
-                $sensitivity = $caseSensitive ? '' : 'i';
-                $safeValue = preg_quote($value, '/');
-                $doesMatch = preg_match('/^' . $safeValue . '$/' . $sensitivity, $extractedValueString);
-                break;
-            case GreaterThanFilter::class:
-                $doesMatch = $extractedValueString > $value;
-                break;
-            case GreaterThanOrEqualFilter::class:
-                $doesMatch = $extractedValueString >= $value;
-                break;
-            case LessThanFilter::class:
-                $doesMatch = $extractedValueString < $value;
-                break;
-            case LessThanOrEqualFilter::class:
-                $doesMatch = $extractedValueString <= $value;
-                break;
-            case PartialMatchFilter::class:
-                $sensitivity = $caseSensitive ? '' : 'i';
-                $safeValue = preg_quote($value, '/');
-                $doesMatch = preg_match('/' . $safeValue . '/' . $sensitivity, $extractedValueString);
-                break;
-            case StartsWithFilter::class:
-                if (is_bool($extractedValue)) {
-                    $doesMatch = false;
-                } else {
-                    $sensitivity = $caseSensitive ? '' : 'i';
-                    $safeValue = preg_quote($value, '/');
-                    $doesMatch = preg_match('/^' . $safeValue . '/' . $sensitivity, $extractedValueString);
-                }
-                break;
-            default:
-                // This will only be reached if an Extension class added classes to getSupportedSearchFilterClasses().
-                $doesMatch = false;
+        $values = $searchFilter->getValue();
+        if (!is_array($values)) {
+            $values = [$values];
         }
+        $fieldMatches = false;
+        foreach ($values as $value) {
+            $unsupported = false;
+            $value = (string)$value;
+            switch (get_class($searchFilter)) {
+                case EndsWithFilter::class:
+                    if (is_bool($extractedValue)) {
+                        $doesMatch = false;
+                    } else {
+                        $sensitivity = $caseSensitive ? '' : 'i';
+                        $safeValue = preg_quote($value, '/');
+                        $doesMatch = preg_match('/' . $safeValue . '$/' . $sensitivity, $extractedValueString);
+                    }
+                    break;
+                case ExactMatchFilter::class:
+                    $sensitivity = $caseSensitive ? '' : 'i';
+                    $safeValue = preg_quote($value, '/');
+                    $doesMatch = preg_match('/^' . $safeValue . '$/' . $sensitivity, $extractedValueString);
+                    break;
+                case GreaterThanFilter::class:
+                    $doesMatch = $extractedValueString > $value;
+                    break;
+                case GreaterThanOrEqualFilter::class:
+                    $doesMatch = $extractedValueString >= $value;
+                    break;
+                case LessThanFilter::class:
+                    $doesMatch = $extractedValueString < $value;
+                    break;
+                case LessThanOrEqualFilter::class:
+                    $doesMatch = $extractedValueString <= $value;
+                    break;
+                case PartialMatchFilter::class:
+                    $sensitivity = $caseSensitive ? '' : 'i';
+                    $safeValue = preg_quote($value, '/');
+                    $doesMatch = preg_match('/' . $safeValue . '/' . $sensitivity, $extractedValueString);
+                    break;
+                case StartsWithFilter::class:
+                    if (is_bool($extractedValue)) {
+                        $doesMatch = false;
+                    } else {
+                        $sensitivity = $caseSensitive ? '' : 'i';
+                        $safeValue = preg_quote($value, '/');
+                        $doesMatch = preg_match('/^' . $safeValue . '/' . $sensitivity, $extractedValueString);
+                    }
+                    break;
+                default:
+                    // This will only be reached if an Extension class added classes to getSupportedSearchFilterClasses().
+                    $doesMatch = false;
+                    $unsupported = true;
+            }
 
-        // Respect "not" modifier.
-        if ($negated) {
-            $doesMatch = !$doesMatch;
+            // Respect "not" modifier.
+            if ($negated) {
+                $doesMatch = !$doesMatch;
+            }
+            // If any value matches, then we consider the field to have matched.
+            if (!$unsupported && $doesMatch) {
+                $fieldMatches = true;
+                break;
+            }
         }
 
         // Allow developers to make their own changes (e.g. for unsupported SearchFilters or modifiers).
-        $this->extend('updateFilterMatch', $doesMatch, $item, $searchFilter);
-        return $doesMatch;
+        $this->extend('updateFilterMatch', $fieldMatches, $item, $searchFilter);
+        return $fieldMatches;
     }
 
     /**
