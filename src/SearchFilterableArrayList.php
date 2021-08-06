@@ -136,6 +136,7 @@ class SearchFilterableArrayList extends ArrayList
     {
         $modifiers = $searchFilter->getModifiers();
         $caseSensitive = !in_array('nocase', $modifiers);
+        $regexSensitivity = $caseSensitive ? '' : 'i';
         $negated = in_array('not', $modifiers);
         $field = $searchFilter->getFullName();
         $extractedValue = $this->extractValue($item, $field);
@@ -148,20 +149,23 @@ class SearchFilterableArrayList extends ArrayList
         foreach ($values as $value) {
             $unsupported = false;
             $value = (string)$value;
+            $regexSafeValue = preg_quote($value, '/');
             switch (get_class($searchFilter)) {
                 case EndsWithFilter::class:
                     if (is_bool($extractedValue)) {
                         $doesMatch = false;
                     } else {
-                        $sensitivity = $caseSensitive ? '' : 'i';
-                        $safeValue = preg_quote($value, '/');
-                        $doesMatch = preg_match('/' . $safeValue . '$/' . $sensitivity, $extractedValueString);
+                        $doesMatch = preg_match(
+                            '/' . $regexSafeValue . '$/' . $regexSensitivity,
+                            $extractedValueString
+                        );
                     }
                     break;
                 case ExactMatchFilter::class:
-                    $sensitivity = $caseSensitive ? '' : 'i';
-                    $safeValue = preg_quote($value, '/');
-                    $doesMatch = preg_match('/^' . $safeValue . '$/' . $sensitivity, $extractedValueString);
+                    $doesMatch = preg_match(
+                        '/^' . $regexSafeValue . '$/' . $regexSensitivity,
+                        $extractedValueString
+                    );
                     break;
                 case GreaterThanFilter::class:
                     $doesMatch = $extractedValueString > $value;
@@ -176,17 +180,19 @@ class SearchFilterableArrayList extends ArrayList
                     $doesMatch = $extractedValueString <= $value;
                     break;
                 case PartialMatchFilter::class:
-                    $sensitivity = $caseSensitive ? '' : 'i';
-                    $safeValue = preg_quote($value, '/');
-                    $doesMatch = preg_match('/' . $safeValue . '/' . $sensitivity, $extractedValueString);
+                    $doesMatch = preg_match(
+                        '/' . $regexSafeValue . '/' . $regexSensitivity,
+                        $extractedValueString
+                    );
                     break;
                 case StartsWithFilter::class:
                     if (is_bool($extractedValue)) {
                         $doesMatch = false;
                     } else {
-                        $sensitivity = $caseSensitive ? '' : 'i';
-                        $safeValue = preg_quote($value, '/');
-                        $doesMatch = preg_match('/^' . $safeValue . '/' . $sensitivity, $extractedValueString);
+                        $doesMatch = preg_match(
+                            '/^' . $regexSafeValue . '/' . $regexSensitivity,
+                            $extractedValueString
+                        );
                     }
                     break;
                 default:
