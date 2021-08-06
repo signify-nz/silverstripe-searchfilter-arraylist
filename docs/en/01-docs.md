@@ -1,7 +1,6 @@
 # Documentation
 
-## Examples
-TODO: Provide some examples of normal usage.
+For installation or usage, refer to the [readme](../../README.md).
 
 ## Implementing your own SearchFilter classes and/or modifiers
 If your project provides new injectable `SearchFilter`s, you can mark them as supported by implementing `updateSupportedSearchFilterClasses` in an `Extension` class. If that SearchFilter has any modifiers, you will need to mark those as supported as well by implementing `updateSupportedModifiers`. Finally, implement the actual logic to determine whether the value in the `SearchFilterableArrayList` matches against your `SearchFilter` by implementing `updateFilterMatch`.
