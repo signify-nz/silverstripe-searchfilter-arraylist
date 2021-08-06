@@ -1,0 +1,7 @@
+# Don't grab these during composer install.
+/tests export-ignore
+/.gitattributes export-ignore
+/.travis.yml export-ignore
+/.scrutinizer.yml export-ignore
+/codecov.yml export-ignore
+/phpcs.xml.dist export-ignore
