@@ -207,7 +207,7 @@ class SearchFilterableArrayList extends ArrayList
         }
 
         // Allow developers to make their own changes (e.g. for unsupported SearchFilters or modifiers).
-        $this->extend('updateFilterMatch', $fieldMatches, $item, $searchFilter);
+        $this->extend('updateFilterMatch', $fieldMatches, $extractedValue, $searchFilter);
         return $fieldMatches;
     }
 
