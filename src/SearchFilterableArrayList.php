@@ -135,8 +135,7 @@ class SearchFilterableArrayList extends ArrayList
     protected function checkValueMatchesSearchFilter(SearchFilter $searchFilter, $item): bool
     {
         $modifiers = $searchFilter->getModifiers();
-        $caseSensitive = !in_array('nocase', $modifiers);
-        $regexSensitivity = $caseSensitive ? '' : 'i';
+        $regexSensitivity = in_array('nocase', $modifiers) ? 'i' : '';
         $negated = in_array('not', $modifiers);
         $field = $searchFilter->getFullName();
         $extractedValue = $this->extractValue($item, $field);
