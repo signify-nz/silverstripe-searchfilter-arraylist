@@ -20,14 +20,14 @@ class SearchFilterableArrayListExtension extends Extension
      */
     public function updateFilterMatch(bool &$fieldMatches, $extractedValue, SearchFilter $searchFilter)
     {
-        if (get_class($searchFilter === MySearchFilter::class)) {
+        if (get_class($searchFilter) === MySearchFilter::class) {
             $values = $searchFilter->getValue();
             if (!is_array($values)) {
                 $values = [$values];
             }
             foreach ($values as $value) {
                 $hasMatch = /* Some boolean comparative logic between $extractedValue and $value here */;
-                in_array('not', $searchFilter->getModifiers()) {
+                if (in_array('not', $searchFilter->getModifiers())) {
                     $hasMatch = !$hasMatch;
                 }
                 // To be consistent, the field matches if ANY value in the search filter matches the extracted value.
