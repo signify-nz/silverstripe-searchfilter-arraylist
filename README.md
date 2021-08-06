@@ -21,4 +21,4 @@ See [the documentation](docs/en/01-docs.md#examples) for examples.
 
 All of the `SearchFilter`s and modifiers documented in [Silverstripe's SearchFilter documentation](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/) should be supported - if you find that isn't the case, please [raise an issue](https://github.com/signify-nz/silverstripe-searchfilter-arraylist/issues) or, better yet, a pull request.
 
-If you have implemented your own `SearchFilter`, you can add support for it via an `Extension` class - [see the extension documentation](docs/en/01-docs.md#implementing-your-own-searchfilter-classes-andor-modifiers).
+If you have implemented your own `SearchFilter`, you can add support for it via an `Extension` class - [see the extension documentation](docs/en/01-docs.md#implementing-your-own-searchfilter-classes-and-or-modifiers).
