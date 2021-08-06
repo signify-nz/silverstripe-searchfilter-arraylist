@@ -2,7 +2,7 @@
     "name": "signify-nz/silverstripe-searchfilter-arraylist",
     "type": "silverstripe-vendormodule",
     "license": "BSD-3-Clause",
-    "description": "Provides an ArrayList that can be filtered using SearchFilters.",
+    "description": "Provides an ArrayList subclass that supports SearchFilter filtering syntax.",
     "homepage": "https://github.com/signify-nz/silverstripe-searchfilter-arraylist",
     "keywords": [
       "silverstripe",
