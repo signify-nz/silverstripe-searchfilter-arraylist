@@ -188,7 +188,7 @@ class SearchFilterableArrayListTest extends SapphireTest
         // Filter to test the LessThanOrEqual filter which retains 3 objects.
         $lesserOrEqualFilter3 = $list->filter('LessThan100:LessThanOrEqual', 99);
         $lesserOrEqualFilter3Retained = $lesserOrEqualFilter3->column('Title');
-        self::assertCount(1, $lesserOrEqualFilter3Retained, 'One object remains in the list.');
+        self::assertCount(3, $lesserOrEqualFilter3Retained, 'Three objects remain in the list.');
         self::assertNotContains('Fourth Object', $lesserOrEqualFilter3Retained);
 
         // Filter to test the GreaterThan and LessThan filters which retains 1 object.
