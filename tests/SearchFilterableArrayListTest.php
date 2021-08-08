@@ -147,6 +147,18 @@ class SearchFilterableArrayListTest extends SapphireTest
         $caseFilter4 = $list->filter('NoCase', 'Case Sensitive');
         self::assertEmpty($caseFilter4->toArray(), 'All objects are filtered out.');
 
+        // Filter testing partial match which retains 1 object.
+        $partialFilter1 = $list->filter('StartsWithTest:PartialMatch', 'start');
+        $partialFilter1Retained = $partialFilter1->column('Title');
+        self::assertCount(1, $partialFilter1Retained, 'One object remains in the list.');
+        self::assertContains('Third Object', $partialFilter1Retained);
+
+        // Filter testing partial match case insensitive which retains 2 objects.
+        $partialFilter2 = $list->filter('StartsWithTest:PartialMatch:nocase', 'start');
+        $partialFilter2Retained = $partialFilter2->column('Title');
+        self::assertCount(2, $partialFilter2Retained, 'Two objects remains in the list.');
+        self::assertContains('Second Object', $partialFilter2Retained);
+        self::assertContains('Third Object', $partialFilter2Retained);
 
         // Filter to test the GreaterThan filter which retains 2 objects.
         $greaterLesserFilter1 = $list->filter('GreaterThan100:GreaterThan', 100);
@@ -154,6 +166,12 @@ class SearchFilterableArrayListTest extends SapphireTest
         self::assertCount(2, $greaterLesserFilter1Retained, 'Two objects remain in the list.');
         self::assertContains('First Object', $greaterLesserFilter1Retained);
         self::assertContains('Second Object', $greaterLesserFilter1Retained);
+
+        // Filter to test the GreaterThanOrEqual filter which retains 3 objects.
+        $greaterOrEqualFilter1 = $list->filter('GreaterThan100:GreaterThanOrEqual', 100);
+        $greaterOrEqualFilter1Retained = $greaterOrEqualFilter1->column('Title');
+        self::assertCount(3, $greaterOrEqualFilter1Retained, 'Two objects remain in the list.');
+        self::assertNotContains('Fourth Object', $greaterOrEqualFilter1Retained);
 
         // Filter to test the LessThan filter which retains 3 objects.
         $greaterLesserFilter2 = $list->filter('LessThan100:LessThan', 100);
@@ -166,6 +184,12 @@ class SearchFilterableArrayListTest extends SapphireTest
         $greaterLesserFilter3Retained = $greaterLesserFilter3->column('Title');
         self::assertCount(1, $greaterLesserFilter3Retained, 'One object remains in the list.');
         self::assertContains('Fourth Object', $greaterLesserFilter3Retained);
+
+        // Filter to test the LessThanOrEqual filter which retains 3 objects.
+        $lesserOrEqualFilter3 = $list->filter('LessThan100:LessThanOrEqual', 99);
+        $lesserOrEqualFilter3Retained = $lesserOrEqualFilter3->column('Title');
+        self::assertCount(1, $lesserOrEqualFilter3Retained, 'One object remains in the list.');
+        self::assertNotContains('Fourth Object', $lesserOrEqualFilter3Retained);
 
         // Filter to test the GreaterThan and LessThan filters which retains 1 object.
         $greaterLesserFilter4 = $list->filter([
