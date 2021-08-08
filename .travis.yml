@@ -16,8 +16,6 @@ matrix:
       env: DB=MYSQL PHPUNIT_TEST=1
     - php: 7.4
       env: DB=MYSQL PHPUNIT_TEST=1 PHPUNIT_COVERAGE_TEST=1
-    - php: 8.0
-      env: DB=MYSQL PHPUNIT_TEST=1
 
 before_script:
   - phpenv rehash
