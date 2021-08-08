@@ -106,7 +106,8 @@ class SearchFilterableArrayList extends ArrayList
                     break;
                 }
             }
-            // filterAny or excludeAny allow any true value to be a match - otherwise any false value denotes a mismatch.
+            // filterAny or excludeAny allow any true value to be a match - otherwise any false value denotes a
+            // mismatch.
             $isMatch = $any ? in_array(true, $matches) : !in_array(false, $matches);
             // If inclusive (filter) and we have a match, or exclusive (exclude) and there is NO match, keep the item.
             if (($inclusive && $isMatch) || (!$inclusive && !$isMatch)) {
@@ -121,10 +122,11 @@ class SearchFilterableArrayList extends ArrayList
      *
      * Regex with explicitly casted strings is used for many of these checks, which allows for things like
      * '1' to match true, without 'abcd' matching true. This can be useful for things like checkboxes which
-     * will often return '1' or '0', but we don't want 'abcd' to match against the truthy '1', nor a raw true value.
+     * will often return '1' or '0', but we don't want 'abcd' to match against the truthy '1', nor a raw true
+     * value.
      *
-     * Dot notation is not respected (if you try to filter against "Field.Count", it will be searching for a field or array
-     * key literally called "Field.Count". This is consistent with the behaviour of ArrayList).
+     * Dot notation is not respected (if you try to filter against "Field.Count", it will be searching for a
+     * field or array key literally called "Field.Count". This is consistent with the behaviour of ArrayList).
      *
      * TODO: Consider respecting dot notation in the future.
      *
@@ -195,7 +197,8 @@ class SearchFilterableArrayList extends ArrayList
                     }
                     break;
                 default:
-                    // This will only be reached if an Extension class added classes to getSupportedSearchFilterClasses().
+                    // This will only be reached if an Extension class added classes to
+                    // getSupportedSearchFilterClasses().
                     $doesMatch = false;
                     $unsupported = true;
             }
