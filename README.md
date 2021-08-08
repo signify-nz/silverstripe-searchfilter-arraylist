@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.com/signify-nz/silverstripe-searchfilter-arraylist.svg?branch=master)](https://travis-ci.com/signify-nz/silverstripe-searchfilter-arraylist)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/signify-nz/silverstripe-searchfilter-arraylist/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/signify-nz/silverstripe-searchfilter-arraylist/?branch=master)
+[![codecov](https://codecov.io/gh/signify-nz/silverstripe-searchfilter-arraylist/branch/master/graph/badge.svg?token=ADKJFY1HUN)](https://codecov.io/gh/signify-nz/silverstripe-searchfilter-arraylist)
+
 # Silverstripe SearchFilter ArrayList
 Provides an [ArrayList](https://api.silverstripe.org/3/ArrayList.html) subclass that can be filtered using [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/).
 
