@@ -76,7 +76,7 @@ class SearchFilterableArrayListTest extends SapphireTest
     /**
      * @useDatabase false
      */
-    public function testFilter()
+    public function testDefaultFilter()
     {
         $list = new SearchFilterableArrayList($this->objects);
 
@@ -146,6 +146,26 @@ class SearchFilterableArrayListTest extends SapphireTest
         // Filter to test case sensitivity which returns an empty list.
         $caseFilter4 = $list->filter('NoCase', 'Case Sensitive');
         self::assertEmpty($caseFilter4->toArray(), 'All objects are filtered out.');
+    }
+
+    /**
+     * @useDatabase false
+     */
+    public function testExactMatchFilter()
+    {
+        $list = new SearchFilterableArrayList($this->objects);
+
+        // Filter testing exact match which retains 1 object.
+        $partialFilter1 = $list->filter('StartsWithTest:ExactMatch', 'Third Object');
+        $partialFilter1Retained = $partialFilter1->column('Title');
+        self::assertCount(1, $partialFilter1Retained, 'One object remains in the list.');
+        self::assertContains('Third Object', $partialFilter1Retained);
+
+        // Filter testing exact match case insensitive which retains 1 object.
+        $partialFilter2 = $list->filter('StartsWithTest:ExactMatch:nocase', 'third object');
+        $partialFilter1Retained = $partialFilter1->column('Title');
+        self::assertCount(1, $partialFilter1Retained, 'One object remains in the list.');
+        self::assertContains('Third Object', $partialFilter1Retained);
     }
 
     /**
