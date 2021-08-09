@@ -156,16 +156,16 @@ class SearchFilterableArrayListTest extends SapphireTest
         $list = new SearchFilterableArrayList($this->objects);
 
         // Filter testing exact match which retains 1 object.
-        $partialFilter1 = $list->filter('StartsWithTest:ExactMatch', 'Third Object');
-        $partialFilter1Retained = $partialFilter1->column('Title');
-        self::assertCount(1, $partialFilter1Retained, 'One object remains in the list.');
-        self::assertContains('Third Object', $partialFilter1Retained);
+        $exactFilter1 = $list->filter('StartsWithTest:ExactMatch', 'Third Object');
+        $exactFilter1Retained = $exactFilter1->column('Title');
+        self::assertCount(1, $exactFilter1Retained, 'One object remains in the list.');
+        self::assertContains('Third Object', $exactFilter1Retained);
 
         // Filter testing exact match case insensitive which retains 1 object.
-        $partialFilter2 = $list->filter('StartsWithTest:ExactMatch:nocase', 'third object');
-        $partialFilter1Retained = $partialFilter1->column('Title');
-        self::assertCount(1, $partialFilter1Retained, 'One object remains in the list.');
-        self::assertContains('Third Object', $partialFilter1Retained);
+        $exactFilter2 = $list->filter('StartsWithTest:ExactMatch:nocase', 'third object');
+        $exactFilter2Retained = $exactFilter2->column('Title');
+        self::assertCount(1, $exactFilter2Retained, 'One object remains in the list.');
+        self::assertContains('Third Object', $exactFilter2Retained);
     }
 
     /**
