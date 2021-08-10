@@ -227,7 +227,7 @@ class SearchFilterableArrayList extends ArrayList
      * @return SearchFilter
      * @see \SilverStripe\ORM\DataList::createSearchFilter
      */
-    protected function createSearchFilter(string $filter, $value)
+    public function createSearchFilter(string $filter, $value)
     {
         // Field name is always the first component
         $fieldArgs = explode(':', $filter);
