@@ -30,7 +30,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Filter the list to include items with these charactaristics.
+     * Filter the list to include items with these characteristics.
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @inheritdoc
@@ -43,7 +43,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Return a copy of this list which contains items matching any of these charactaristics.
+     * Return a copy of this list which contains items matching any of these characteristics.
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @inheritdoc
@@ -56,7 +56,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Exclude the list to not contain items with these charactaristics
+     * Exclude the list to not contain items with these characteristics
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @inheritdoc
@@ -69,7 +69,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Exclude the list to not contain items matching any of these charactaristics
+     * Exclude the list to not contain items matching any of these characteristics
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @link https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/
