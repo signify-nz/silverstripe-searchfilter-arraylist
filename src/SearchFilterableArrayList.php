@@ -200,7 +200,7 @@ class SearchFilterableArrayList extends ArrayList
                     // This will only be reached if an Extension class added classes to
                     // getSupportedSearchFilterClasses(). We will let them handle matching
                     // against it in their implementation of updateFilterMatch.
-                    continue;
+                    continue 2; // continue the loop
             }
 
             // Respect "not" modifier.
