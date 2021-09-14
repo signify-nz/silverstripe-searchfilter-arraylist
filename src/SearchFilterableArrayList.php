@@ -149,7 +149,6 @@ class SearchFilterableArrayList extends ArrayList
         }
         $fieldMatches = false;
         foreach ($values as $value) {
-            $unsupported = false;
             $value = (string)$value;
             $regexSafeValue = preg_quote($value, '/');
             switch (get_class($searchFilter)) {
@@ -199,9 +198,9 @@ class SearchFilterableArrayList extends ArrayList
                     break;
                 default:
                     // This will only be reached if an Extension class added classes to
-                    // getSupportedSearchFilterClasses().
-                    $doesMatch = false;
-                    $unsupported = true;
+                    // getSupportedSearchFilterClasses(). We will let them handle matching
+                    // against it in their implementation of updateFilterMatch.
+                    continue;
             }
 
             // Respect "not" modifier.
@@ -209,7 +208,7 @@ class SearchFilterableArrayList extends ArrayList
                 $doesMatch = !$doesMatch;
             }
             // If any value matches, then we consider the field to have matched.
-            if (!$unsupported && $doesMatch) {
+            if ($doesMatch) {
                 $fieldMatches = true;
                 break;
             }
