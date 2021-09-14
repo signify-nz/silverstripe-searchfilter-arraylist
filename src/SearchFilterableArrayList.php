@@ -128,7 +128,7 @@ class SearchFilterableArrayList extends ArrayList
      * Dot notation is not respected (if you try to filter against "Field.Count", it will be searching for a
      * field or array key literally called "Field.Count". This is consistent with the behaviour of ArrayList).
      *
-     * TODO: Consider respecting dot notation in the future.
+     * @todo: Consider respecting dot notation in the future.
      *
      * @param SearchFilter $searchFilter
      * @param mixed $item
