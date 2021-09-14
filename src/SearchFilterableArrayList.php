@@ -157,14 +157,14 @@ class SearchFilterableArrayList extends ArrayList
                         $doesMatch = false;
                     } else {
                         $doesMatch = preg_match(
-                            '/' . $regexSafeValue . '$/' . $regexSensitivity,
+                            '/' . $regexSafeValue . '$/u' . $regexSensitivity,
                             $extractedValueString
                         );
                     }
                     break;
                 case ExactMatchFilter::class:
                     $doesMatch = preg_match(
-                        '/^' . $regexSafeValue . '$/' . $regexSensitivity,
+                        '/^' . $regexSafeValue . '$/u' . $regexSensitivity,
                         $extractedValueString
                     );
                     break;
@@ -182,7 +182,7 @@ class SearchFilterableArrayList extends ArrayList
                     break;
                 case PartialMatchFilter::class:
                     $doesMatch = preg_match(
-                        '/' . $regexSafeValue . '/' . $regexSensitivity,
+                        '/' . $regexSafeValue . '/u' . $regexSensitivity,
                         $extractedValueString
                     );
                     break;
@@ -191,7 +191,7 @@ class SearchFilterableArrayList extends ArrayList
                         $doesMatch = false;
                     } else {
                         $doesMatch = preg_match(
-                            '/^' . $regexSafeValue . '/' . $regexSensitivity,
+                            '/^' . $regexSafeValue . '/u' . $regexSensitivity,
                             $extractedValueString
                         );
                     }
