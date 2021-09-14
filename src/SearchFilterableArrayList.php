@@ -106,8 +106,8 @@ class SearchFilterableArrayList extends ArrayList
                     break;
                 }
             }
-            // filterAny or excludeAny allow any true value to be a match - otherwise any false value denotes a
-            // mismatch.
+            // filterAny or excludeAny allow any true value to be a match; filter or exclude require any false value
+            // to be a mismatch.
             $isMatch = $any ? array_key_exists(true, $matches) : !array_key_exists(false, $matches);
             // If inclusive (filter) and we have a match, or exclusive (exclude) and there is NO match, keep the item.
             if (($inclusive && $isMatch) || (!$inclusive && !$isMatch)) {
