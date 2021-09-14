@@ -88,7 +88,7 @@ class SearchFilterableArrayList extends ArrayList
      */
     protected function filterOrExclude($filters, $inclusive = true, $any = false)
     {
-        $remainingItems = [];
+        $itemsToKeep = [];
         $searchFilters = [];
 
         foreach ($filters as $filterKey => $filterValue) {
@@ -112,10 +112,10 @@ class SearchFilterableArrayList extends ArrayList
             $isMatch = $any ? isset($matches[true]) : !isset($matches[false]);
             // If inclusive (filter) and we have a match, or exclusive (exclude) and there is NO match, keep the item.
             if (($inclusive && $isMatch) || (!$inclusive && !$isMatch)) {
-                $remainingItems[] = $item;
+                $itemsToKeep[] = $item;
             }
         }
-        return static::create($remainingItems);
+        return static::create($itemsToKeep);
     }
 
     /**
