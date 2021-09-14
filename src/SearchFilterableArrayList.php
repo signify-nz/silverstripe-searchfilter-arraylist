@@ -90,15 +90,16 @@ class SearchFilterableArrayList extends ArrayList
     {
         $remainingItems = [];
         $searchFilters = [];
+
+        foreach ($filters as $filterKey => $filterValue) {
+            $searchFilter = $this->createSearchFilter($filterKey, $filterValue);
+            $searchFilters[$filterKey] = $searchFilter;
+        }
+
         foreach ($this->items as $item) {
             $matches = [];
             foreach ($filters as $filterKey => $filterValue) {
-                if (array_key_exists($filterKey, $searchFilters)) {
-                    $searchFilter = $searchFilters[$filterKey];
-                } else {
-                    $searchFilter = $this->createSearchFilter($filterKey, $filterValue);
-                    $searchFilters[$filterKey] = $searchFilter;
-                }
+                $searchFilter = $searchFilters[$filterKey];
                 $hasMatch = $this->checkValueMatchesSearchFilter($searchFilter, $item);
                 $matches[$hasMatch] = 1;
                 // If this is excludeAny or filterAny and we have a match, we can stop looking for matches.
