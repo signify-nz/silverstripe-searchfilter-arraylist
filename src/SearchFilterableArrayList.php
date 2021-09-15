@@ -30,7 +30,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Filter the list to include items with these charactaristics.
+     * Filter the list to include items with these characteristics.
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @inheritdoc
@@ -43,7 +43,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Return a copy of this list which contains items matching any of these charactaristics.
+     * Return a copy of this list which contains items matching any of these characteristics.
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @inheritdoc
@@ -56,7 +56,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Exclude the list to not contain items with these charactaristics
+     * Return a copy of the list excluding any items that have all of these characteristics
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @inheritdoc
@@ -69,7 +69,7 @@ class SearchFilterableArrayList extends ArrayList
     }
 
     /**
-     * Exclude the list to not contain items matching any of these charactaristics
+     * Return a copy of the list excluding any items that have any of these characteristics
      * Note that search filters can also be used, but dot notation is not respected.
      *
      * @link https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/
@@ -88,33 +88,34 @@ class SearchFilterableArrayList extends ArrayList
      */
     protected function filterOrExclude($filters, $inclusive = true, $any = false)
     {
-        $remainingItems = [];
+        $itemsToKeep = [];
         $searchFilters = [];
+
+        foreach ($filters as $filterKey => $filterValue) {
+            $searchFilter = $this->createSearchFilter($filterKey, $filterValue);
+            $searchFilters[$filterKey] = $searchFilter;
+        }
+
         foreach ($this->items as $item) {
             $matches = [];
             foreach ($filters as $filterKey => $filterValue) {
-                if (array_key_exists($filterKey, $searchFilters)) {
-                    $searchFilter = $searchFilters[$filterKey];
-                } else {
-                    $searchFilter = $this->createSearchFilter($filterKey, $filterValue);
-                    $searchFilters[$filterKey] = $searchFilter;
-                }
+                $searchFilter = $searchFilters[$filterKey];
                 $hasMatch = $this->checkValueMatchesSearchFilter($searchFilter, $item);
-                $matches[] = $hasMatch;
+                $matches[$hasMatch] = 1;
                 // If this is excludeAny or filterAny and we have a match, we can stop looking for matches.
                 if ($any && $hasMatch) {
                     break;
                 }
             }
-            // filterAny or excludeAny allow any true value to be a match - otherwise any false value denotes a
-            // mismatch.
-            $isMatch = $any ? in_array(true, $matches) : !in_array(false, $matches);
+            // filterAny or excludeAny allow any true value to be a match; filter or exclude require any false value
+            // to be a mismatch.
+            $isMatch = $any ? isset($matches[true]) : !isset($matches[false]);
             // If inclusive (filter) and we have a match, or exclusive (exclude) and there is NO match, keep the item.
             if (($inclusive && $isMatch) || (!$inclusive && !$isMatch)) {
-                $remainingItems[] = $item;
+                $itemsToKeep[] = $item;
             }
         }
-        return static::create($remainingItems);
+        return static::create($itemsToKeep);
     }
 
     /**
@@ -128,7 +129,7 @@ class SearchFilterableArrayList extends ArrayList
      * Dot notation is not respected (if you try to filter against "Field.Count", it will be searching for a
      * field or array key literally called "Field.Count". This is consistent with the behaviour of ArrayList).
      *
-     * TODO: Consider respecting dot notation in the future.
+     * @todo: Consider respecting dot notation in the future.
      *
      * @param SearchFilter $searchFilter
      * @param mixed $item
@@ -148,7 +149,6 @@ class SearchFilterableArrayList extends ArrayList
         }
         $fieldMatches = false;
         foreach ($values as $value) {
-            $unsupported = false;
             $value = (string)$value;
             $regexSafeValue = preg_quote($value, '/');
             switch (get_class($searchFilter)) {
@@ -198,9 +198,9 @@ class SearchFilterableArrayList extends ArrayList
                     break;
                 default:
                     // This will only be reached if an Extension class added classes to
-                    // getSupportedSearchFilterClasses().
-                    $doesMatch = false;
-                    $unsupported = true;
+                    // getSupportedSearchFilterClasses(). We will let them handle matching
+                    // against it in their implementation of updateFilterMatch.
+                    continue 2; // continue the loop
             }
 
             // Respect "not" modifier.
@@ -208,7 +208,7 @@ class SearchFilterableArrayList extends ArrayList
                 $doesMatch = !$doesMatch;
             }
             // If any value matches, then we consider the field to have matched.
-            if (!$unsupported && $doesMatch) {
+            if ($doesMatch) {
                 $fieldMatches = true;
                 break;
             }
