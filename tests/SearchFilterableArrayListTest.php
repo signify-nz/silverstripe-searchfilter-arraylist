@@ -11,7 +11,7 @@ class SearchFilterableArrayListTest extends SapphireTest
 
     protected $objects;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->objects = [
