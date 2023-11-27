@@ -74,7 +74,7 @@ class SearchFilterableArrayList extends ArrayList
      *
      * @link https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/
      */
-    public function excludeAny()
+    public function excludeAny(): static
     {
         $filters = call_user_func_array([$this, 'normaliseFilterArgs'], func_get_args());
         return $this->filterOrExclude($filters, false, true);
@@ -86,7 +86,7 @@ class SearchFilterableArrayList extends ArrayList
      * @param array $filters
      * @return static
      */
-    protected function filterOrExclude($filters, $inclusive = true, $any = false)
+    protected function filterOrExclude(array $filters, bool $inclusive = true, bool $any = false): static
     {
         $itemsToKeep = [];
         $searchFilters = [];
@@ -227,7 +227,7 @@ class SearchFilterableArrayList extends ArrayList
      * @return SearchFilter
      * @see \SilverStripe\ORM\DataList::createSearchFilter
      */
-    public function createSearchFilter(string $filter, $value)
+    public function createSearchFilter($filter, $value)
     {
         // Field name is always the first component
         $fieldArgs = explode(':', $filter);
