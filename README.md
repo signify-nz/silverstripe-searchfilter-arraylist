@@ -5,6 +5,8 @@
 # Silverstripe SearchFilter ArrayList
 Provides an [ArrayList](https://api.silverstripe.org/3/ArrayList.html) subclass that can be filtered using [SearchFilters](https://docs.silverstripe.org/en/4/developer_guides/model/searchfilters/).
 
+**This module is obsolete as of Silverstripe CMS 5.1.0**, as the functionality it provides is now in core. Please see [this comment](https://github.com/signify-nz/silverstripe-searchfilter-arraylist/issues/4#issuecomment-1828841648) for more information.
+
 ## Installation
 Install via [composer](https://getcomposer.org):
 ```shell
